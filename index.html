@@ -71,6 +71,224 @@
             transition: width 0.1s linear;
         }
 
+        /* ===== NOISE TEXTURE OVERLAY ===== */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+            animation: noise-shift 0.5s steps(2) infinite;
+        }
+        @keyframes noise-shift {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, 2px); }
+        }
+
+        /* ===== MARQUEE TICKER ===== */
+        .marquee-ticker {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, var(--amber-dim), var(--amber), var(--amber-dim));
+            padding: 8px 0;
+            z-index: 9997;
+            overflow: hidden;
+            border-top: 1px solid var(--amber-glow);
+        }
+        .marquee-inner {
+            display: flex;
+            gap: 80px;
+            animation: marquee-scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+        .marquee-item {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .marquee-item::before {
+            content: '◆';
+            font-size: 0.5rem;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== PARTICLE DOTS ===== */
+        .particles-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--amber);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particle-float 15s ease-in-out infinite;
+        }
+        .particle:nth-child(odd) {
+            background: var(--green);
+            width: 2px;
+            height: 2px;
+        }
+        @keyframes particle-float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            25% { transform: translate(30px, -60px) scale(1.2); opacity: 0.6; }
+            50% { transform: translate(-20px, -100px) scale(0.8); opacity: 0.2; }
+            75% { transform: translate(40px, -40px) scale(1.1); opacity: 0.5; }
+        }
+
+        /* ===== ANIMATED BORDERS ===== */
+        .animated-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .animated-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(90deg, transparent, var(--amber), var(--green), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: border-flow 4s linear infinite;
+            background-size: 200% 100%;
+        }
+        @keyframes border-flow {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== MAGNETIC BUTTONS ===== */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease-out;
+        }
+
+        /* ===== PRICING GLOW PULSE ===== */
+        .pricing-card.featured {
+            position: relative;
+            animation: pricing-glow 3s ease-in-out infinite;
+        }
+        @keyframes pricing-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--amber-glow-lg), 0 0 40px rgba(245, 158, 11, 0.05); }
+            50% { box-shadow: 0 0 40px var(--amber-glow), 0 0 80px rgba(245, 158, 11, 0.1); }
+        }
+
+        /* ===== FAQ SMOOTH ===== */
+        .faq-item {
+            overflow: hidden;
+        }
+        .faq-item .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+        }
+        .faq-item[open] .faq-content {
+            max-height: 500px;
+            padding-top: 16px;
+        }
+        .faq-icon {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .faq-item[open] .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* ===== TESTIMONIAL CAROUSEL AUTO-PLAY ===== */
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            overflow: hidden;
+        }
+        .testimonial-card {
+            min-width: calc(33.333% - 14px);
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .testimonial-card.faded {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            animation: testimonial-carousel 12s ease-in-out infinite;
+        }
+        @keyframes testimonial-carousel {
+            0%, 20% { transform: translateX(0); }
+            25%, 45% { transform: translateX(-33.333%); }
+            50%, 70% { transform: translateX(-66.666%); }
+            75%, 95% { transform: translateX(-33.333%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ===== ENHANCED SCROLL REVEAL ===== */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== PARALLAX ===== */
+        .parallax-element {
+            will-change: transform;
+        }
+
+        /* ===== ENHANCED GEOMETRIC SHAPES ===== */
+        .geo-shapes .geo-shape {
+            transition: transform 0.3s ease-out, opacity 0.3s ease;
+        }
+
         /* Background Layers */
         .grid-bg {
             position: fixed;
@@ -1787,7 +2005,7 @@
             .hero-meta { flex-direction: column; gap: 16px; }
             .pain-grid,
             .features-grid,
-            .testimonials-grid,
+            .testimonials-track,
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -1799,12 +2017,20 @@
             .command-body { grid-template-columns: 1fr; }
             .cc-timeline { grid-column: 1; }
             .cc-status-row { grid-column: 1; flex-wrap: wrap; }
+            /* Mobile marquee adjustments */
+            .marquee-ticker { display: none; }
+            .particles-container { display: none; }
+            .noise-overlay { opacity: 0.02; }
         }
     </style>
 </head>
 <body>
     <!-- Scroll Progress -->
     <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- Noise Texture -->
+    <div class="noise-overlay"></div>
+    <!-- Particles -->
+    <div class="particles-container" id="particles"></div>
 
     <!-- Background Layers -->
     <div class="grid-bg"></div>
@@ -1819,6 +2045,24 @@
         <div class="geo-shape geo-shape--cross"></div>
         <div class="geo-shape geo-shape--hex2"></div>
         <div class="geo-shape geo-shape--tri2"></div>
+    </div>
+
+    <!-- Marquee Ticker -->
+    <div class="marquee-ticker">
+        <div class="marquee-inner">
+            <span class="marquee-item">Zero Incidents Mission</span>
+            <span class="marquee-item">ISO 45001 Certified</span>
+            <span class="marquee-item">Real-Time Monitoring</span>
+            <span class="marquee-item">Mining &amp; Oil &amp; Gas</span>
+            <span class="marquee-item">Compliance Guaranteed</span>
+            <span class="marquee-item">100% Traceability</span>
+            <span class="marquee-item">Zero Incidents Mission</span>
+            <span class="marquee-item">ISO 45001 Certified</span>
+            <span class="marquee-item">Real-Time Monitoring</span>
+            <span class="marquee-item">Mining &amp; Oil &amp; Gas</span>
+            <span class="marquee-item">Compliance Guaranteed</span>
+            <span class="marquee-item">100% Traceability</span>
+        </div>
     </div>
 
     <!-- Navigation -->
@@ -1852,7 +2096,7 @@
     <section class="hero">
         <div class="container">
             <div class="hero-grid">
-                <div class="hero-content">
+                <div class="hero-content reveal-left">
                     <div class="hero-badge">
                         <span class="badge">
                             <span class="badge-dot"></span>
@@ -1882,8 +2126,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="command-panel">
+                <div class="hero-visual reveal-right">
+                    <div class="command-panel parallax-element">
                         <div class="command-header">
                             <div class="command-dots">
                                 <span class="command-dot red"></span>
@@ -2388,7 +2632,7 @@
                 <h2 class="section-title">Lo que dicen nuestros clientes</h2>
                 <p class="section-subtitle">Empresas líderes en minería y oil & gas confían en SafeNova.</p>
             </div>
-            <div class="testimonials-grid">
+            <div class="testimonials-track">
                 <div class="testimonial-card reveal reveal-delay-1">
                     <div class="testimonial-quote">"</div>
                     <p class="testimonial-text">Implementamos SafeNova en 3 minas y en 6 meses pasamos de 12 incidentes/mes a cero. El dashboard en tiempo real nos dio visibilidad que nunca tuvimos.</p>
@@ -2570,7 +2814,22 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Scroll Progress Bar
+        // ========== PARTICLES GENERATOR ==========
+        (function initParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 40;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 15 + 's';
+                p.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ========== SCROLL PROGRESS ==========
         window.addEventListener('scroll', () => {
             const scrollProgress = document.getElementById('scrollProgress');
             const scrollTop = window.scrollY;
@@ -2579,7 +2838,72 @@
             scrollProgress.style.width = scrollPercent + '%';
         });
 
-        // Nav scroll effect
+        // ========== PARALLAX EFFECT ==========
+        (function initParallax() {
+            const shapes = document.querySelectorAll('.geo-shape');
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                shapes.forEach((shape, i) => {
+                    const speed = 0.02 + (i * 0.005);
+                    const yOffset = scrollY * speed;
+                    shape.style.transform = `translateY(${yOffset}px) ${getComputedStyle(shape).transform}`;
+                });
+            });
+            // Mouse parallax for hero section
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                shapes.forEach((shape, i) => {
+                    const speed = 0.01 + (i * 0.003);
+                    shape.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                });
+            });
+        })();
+
+        // ========== MAGNETIC BUTTONS ==========
+        (function initMagneticButtons() {
+            const buttons = document.querySelectorAll('.btn, .nav-cta, .pricing-cta');
+            buttons.forEach(btn => {
+                btn.classList.add('magnetic-btn');
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0, 0)';
+                });
+            });
+        })();
+
+        // ========== ANIMATED BORDERS ON HOVER ==========
+        (function initAnimatedBorders() {
+            const cards = document.querySelectorAll('.pricing-card, .feature-card, .testimonial-card');
+            cards.forEach(card => {
+                card.classList.add('animated-border');
+            });
+        })();
+
+        // ========== TESTIMONIAL CAROUSEL AUTO-PLAY ==========
+        (function initTestimonialCarousel() {
+            const track = document.querySelector('.testimonials-track');
+            if (!track) return;
+            const cards = track.querySelectorAll('.testimonial-card');
+            let currentIndex = 0;
+
+            setInterval(() => {
+                cards.forEach((card, i) => {
+                    card.classList.remove('faded');
+                });
+                currentIndex = (currentIndex + 1) % 3;
+                cards.forEach((card, i) => {
+                    if (i !== currentIndex) card.classList.add('faded');
+                });
+            }, 4000);
+        })();
+
+        // ========== NAV SCROLL EFFECT ==========
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -2589,15 +2913,15 @@
             }
         });
 
-        // Mobile menu toggle
+        // ========== MOBILE MENU TOGGLE ==========
         const hamburger = document.getElementById('navHamburger');
         const navLinks = document.getElementById('navLinks');
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
 
-        // Reveal on scroll with IntersectionObserver
-        const revealElements = document.querySelectorAll('.reveal');
+        // ========== REVEAL ON SCROLL (ENHANCED) ==========
+        const revealElements = document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -2610,7 +2934,7 @@
         });
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // Count-up animation for stats
+        // ========== COUNT-UP ANIMATION ==========
         const statValues = document.querySelectorAll('.stat-value[data-target]');
         const countObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -2640,7 +2964,7 @@
         }, { threshold: 0.5 });
         statValues.forEach(el => countObserver.observe(el));
 
-        // Smooth scroll for anchor links
+        // ========== SMOOTH SCROLL ==========
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
@@ -2649,10 +2973,31 @@
                     const target = document.querySelector(href);
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        // Close mobile menu if open
                         navLinks.classList.remove('active');
                     }
                 }
+            });
+        });
+
+        // ========== FAQ SMOOTH ACCORDION ==========
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('toggle', () => {
+                if (item.open) {
+                    // Close others
+                    document.querySelectorAll('.faq-item').forEach(other => {
+                        if (other !== item && other.open) other.open = false;
+                    });
+                }
+            });
+        });
+
+        // ========== PRICING CARD HOVER EFFECTS ==========
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '1';
             });
         });
     </script>
