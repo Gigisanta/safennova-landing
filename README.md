@@ -1,4 +1,4 @@
-# safennova-landing
+# safennova / landing
 
 Landing page de SafeNova — Gestión HSE para sitios industriales de alto riesgo.
 
@@ -16,15 +16,13 @@ Landing page de SafeNova — Gestión HSE para sitios industriales de alto riesg
 
 Push a `main` → deploy automático a Vercel.
 
-```bash
-git push origin main
-```
-
 ## Estructura
 
 ```
-safennova-landing/
-├── index.html        ← landing page completa
-├── .vercelignore
-└── README.md
+safennova/
+├── landing/
+│   ├── index.html
+│   ├── .vercelignore
+│   └── .git/           ← conectado a GitHub
+└── README.md            ← (este archivo es del proyecto principal)
 ```
